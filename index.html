@@ -4,7 +4,7 @@
     <head>
         <title>さんぷる</title>
         <!-- <script src="/socket.io/socket.io.js"></script> -->
-        <script src="https://sock.rusian0.com/socket.io/socket.io.js"></script>
+        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
         <link rel="shortcut icon" href="favicon.ico">
     </head>
@@ -18,7 +18,7 @@
         </form>
         <div id="messages"></div>
         <script>
-            var socket_c = io('https://sock.rusian0.com', {transports:['polling']});
+            var socket_c = io('http://localhost:3000', {transports:['polling']});
 
             $(function () {
                 $('#message_form').submit(function () {

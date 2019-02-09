@@ -1,13 +1,13 @@
 var express = require('express');
-var app = express();
+var app  = express();
 var exec = require('child_process').exec;
 var util = require('util');
 var http = require('http').Server(app);
+var fs   = require('fs');
 const io = require('socket.io')(http);
 const PORT = process.env.Port || 3000;
 
-
-var ls = exec('systemctl is-active publicmc-server', (error, stdout, stderr) => {
+var ls = exec('ls', (error, stdout, stderr) => {
    if(error) {
      // エラー時は標準エラー出力を表示して終了
      return stderr;
@@ -18,24 +18,27 @@ var ls = exec('systemctl is-active publicmc-server', (error, stdout, stderr) => 
    }
  });
 
-// io.emit('message_s', util.inspect(ls));
+//ファイルの書き込み関数
+function writeFile(path, data) {
+  fs.writeFile(path, data, function (err) {
+    if (err) {
+        throw err;
+    }
+  });
+}
 
-// console.log(ls);
+//使用例
+writeFile("test.txt", "これで読み込めてるってことか");
 
 
-// app.get('/', function (req, res) {
-//    // res.send('るしあんワールド');
-//    // res.sendFile(__dirname);
-//    res.sendFile(__dirname + '/index.html');
-// });
 
 io.on('connection', function (socket) {
+   var text = fs.readFileSync("test.txt").toString();
+   io.emit('message_s', text);
    socket.on('message', function(msg){
-      // console.log('message: ' + msg);
       io.emit('message_s', msg);
       // io.emit('message_s', util.inspect(ls));
-      // io.emit('message_s', ls);
-      // io.emit('message_s', "マレー語");
+
    });
 });
 
