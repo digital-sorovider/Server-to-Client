@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>さんぷる</title>
+        <!-- <script src="/socket.io/socket.io.js"></script> -->
+        <script src="https://sock.rusian0.com/socket.io/socket.io.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+        <link rel="shortcut icon" href="favicon.ico">
+    </head>
+
+    <body>
+        <!-- <iframe src="https://sock.rusian0.com" frameborder="0"></iframe> -->
+        <h1>チャットテスト</h1>
+        <img src="server-icon.png" alt="">
+        <form action="#" id="message_form">
+            <input id="input_msg" autocomplete="off" /><button>Send</button>
+        </form>
+        <div id="messages"></div>
+        <script>
+            var socket_c = io('https://sock.rusian0.com', {transports:['polling']});
+
+            $(function () {
+                $('#message_form').submit(function () {
+                    socket_c.emit('message', $('#input_msg').val());
+                    $('#input_msg').val('');
+                    return false;
+                });
+
+                socket_c.on('message_s', function (msg) {
+                    $('#messages').append($('<h3>').text(msg));
+                });
+            });
+        </script>
+    </body>
+
+
+
+</html>
