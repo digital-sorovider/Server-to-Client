@@ -25,13 +25,13 @@ var ls = exec('ls', (error, stdout, stderr) => {
   ]
 };
 
-nmap.scan(opts, function(err, report) {
-  if (err) throw new Error(err);
+// nmap.scan(opts, function(err, report) {
+//   if (err) throw new Error(err);
 
-  for (let item in report) {
-    console.log(JSON.stringify(report[item]));
-  }
-});
+//   for (let item in report) {
+//     console.log(JSON.stringify(report[item]));
+//   }
+// });
 
 //ファイルの書き込み関数
 function writeFile(path, data) {
