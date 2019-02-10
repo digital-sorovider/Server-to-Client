@@ -43,7 +43,7 @@ function writeFile(path, data) {
 }
 
 //使用例
-writeFile("test.txt", "これで読み込めてるってことか");
+writeFile("test.txt", "サンプルテキスト");
 
 
 
