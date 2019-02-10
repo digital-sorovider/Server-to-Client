@@ -1,13 +1,27 @@
-var express = require('express');
-var nc = require('node-netcat');
-var app = express();
+// const NetcatServer = require('netcat/server')
+const NetcatClient = require('netcat/client')
+// var express = require('express');
+// var nc = require('node-netcat');
+var nc = new NetcatClient()
+// var app = express();
 // var exec = require('child_process').exec;
 // var util = require('util');
-var http = require('http').Server(app);
-var fs = require('fs');
-const nmap = require('libnmap');
-const io = require('socket.io')(http);
-const PORT = process.env.Port || 3000;
+// var http = require('http').Server(app);
+// var fs = require('fs');
+// const nmap = require('libnmap');
+// const io = require('socket.io')(http);
+// const PORT = process.env.Port || 3000;
+setInterval(function() {
+
+
+nc.addr('192.168.0.3').scan('25565-25566', function(ports){
+  // ports: { '22': 'open', '23': 'closed' ... }
+  console.log(ports['25565']);
+ })
+}, 1000);
+
+
+// nc.udp().port(9987).wait(1000).init().send('hello', '192.168.0.3')
 
 // var ls = exec('ls', (error, stdout, stderr) => {
 //    if(error) {
@@ -54,35 +68,35 @@ const PORT = process.env.Port || 3000;
 // new nc.client(25565, '192.168.0.3');
 
 // client.start();
-var udp = nc.udpServer('9987', '192.168.0.3')
-console.log(udp);
+// var udp = nc.udpServer('9987', '192.168.0.3')
+// console.log(udp);
 
 
 //ファイルの書き込み関数
-function writeFile(path, data) {
-  fs.writeFile(path, data, function (err) {
-    if (err) {
-      throw err;
-    }
-  });
-}
+// function writeFile(path, data) {
+//   fs.writeFile(path, data, function (err) {
+//     if (err) {
+//       throw err;
+//     }
+//   });
+// }
 
-//使用例
-writeFile("test.txt", "サンプルテキスト");
+// //使用例
+// writeFile("test.txt", "サンプルテキスト");
 
 
 
-io.on('connection', function (socket) {
-  var text = fs.readFileSync("test.txt").toString();
-  io.emit('message_s', text);
-  socket.on('message', function (msg) {
-    io.emit('message_s', msg);
-    // io.emit('message_s', util.inspect(ls));
+// io.on('connection', function (socket) {
+//   var text = fs.readFileSync("test.txt").toString();
+//   io.emit('message_s', text);
+//   socket.on('message', function (msg) {
+//     io.emit('message_s', msg);
+//     // io.emit('message_s', util.inspect(ls));
 
-  });
-});
+//   });
+// });
 
-http.listen(PORT, function () {
-  console.log('server listening. Port:' + PORT);
+// http.listen(PORT, function () {
+//   console.log('server listening. Port:' + PORT);
 
-});
+// });

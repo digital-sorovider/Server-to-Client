@@ -19,6 +19,7 @@
   "dependencies": {
     "libnmap": "^0.4.16",
     "namp": "^0.2.25",
+    "netcat": "^1.4.0",
     "nmap": "^1.1.0",
     "node-libnmap": "^0.2.15",
     "node-netcat": "^1.4.8",
