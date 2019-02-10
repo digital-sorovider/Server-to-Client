@@ -4,6 +4,7 @@ var exec = require('child_process').exec;
 var util = require('util');
 var http = require('http').Server(app);
 var fs   = require('fs');
+var nmap = require('node-libnmap')
 const io = require('socket.io')(http);
 const PORT = process.env.Port || 3000;
 
