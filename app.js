@@ -1,6 +1,6 @@
 // var express = require('express');
 // var app = express();
-var exec = require('child_process').exec;
+var exec = require('child_process').exec; //シェルコマンド実行モジュール
 // var util = require('util');
 // var http = require('http').Server(app);
 // var fs = require('fs');
@@ -42,20 +42,28 @@ var exec = require('child_process').exec;
 
 
 
+var status;
 
+var port = 4000
 
-var port = 4001
+function listen() {
 
+	//指定されたポートがlistenされているかどうか判定
+	var result = new Promise(function (resolve) {
+		exec('netstat -anu | grep ' + port, (err) => {
+			if (!err) resolve(true)
+			else resolve(false)
+		});
+	})
 
-var listen_check = new Promise(function (resolve) {
-	exec('netstat -anu | grep ' + port, (err, stdout, stderr) => {
-		if (!err) resolve(true)
-		else resolve(false)
+	//（上記の判定が終了した後）前回の判定と今回の判定結果が違う場合はサーバーのステータスが変化したというイベント発火
+	result.then(function (data) {
+		if(status !== data)
+		console.log(data)
+		status = data
 	});
-})
 
+}
 
-listen_check.then(function (data) {
-
-	return data
-});
+//1秒ごとに判定
+setInterval(listen, 1000)
