@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/rusian0/Server-to-Client#readme",
   "dependencies": {
+    "dgram": "^1.0.1",
+    "express": "^4.16.4",
     "libnmap": "^0.4.16",
     "lsof": "^0.1.0",
     "namp": "^0.2.25",
@@ -25,6 +27,7 @@
     "node-libnmap": "^0.2.15",
     "node-netcat": "^1.4.8",
     "node-nmap": "^4.0.0",
-    "portscanner": "^2.2.0"
+    "portscanner": "^2.2.0",
+    "udp-transport": "^0.1.2"
   }
 }

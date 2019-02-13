@@ -1,23 +1,40 @@
-// var express = require('express');
-// var app = express();
+var express = require('express');
+var app = express();
 var exec = require('child_process').exec; //シェルコマンド実行モジュール
+const is_windows = process.platform === 'win32'
+const is_linux = process.platform === 'linux'
+const is_mac = process.platform === 'darwin'
 // var util = require('util');
-// var http = require('http').Server(app);
+var http = require('http').Server(app);
 // var fs = require('fs');
 
-// const io = require('socket.io')(http);
-// const PORT = process.env.Port || 3000;
+const io = require('socket.io')(http);
+const PORT = process.env.Port || 3000;
 
 
 var status;
 
-var port = 4000
+var check_port = "4000"
+	port = '":' + check_port + ' "'
 
 function listen() {
+	// var search_type;
+
+	if (is_windows) {
+		args = ' -anp UDP '
+		search_type = ' find '
+	}
+	else if (is_linux) {
+		args = ' -anu '
+		search_type = ' grep '
+	}
+	else {
+		search_type = '?'
+	}
 
 	//指定されたポートがlistenされているかどうか判定
 	var result = new Promise(function (resolve) {
-		exec('netstat -anu | grep ' + port, (err) => {
+		exec('netstat' + args + '|' + search_type + port, (err, stdout) => {
 			if (!err) resolve(true)
 			else resolve(false)
 		});
@@ -25,30 +42,30 @@ function listen() {
 
 	//（上記の判定が終了した後）前回の判定と今回の判定結果が違う場合はサーバーのステータスが変化したことをクライアントに知らせる
 	result.then(function (data) {
-		if(status !== data)
-		console.log(data)
+		if (status !== data)
+			console.log(data)
 		status = data
 	});
 
 }
 
 //1秒ごとに判定
-setInterval(listen, 1000)
+// setInterval(listen, 1000)
 
-// io.on('connection', function (socket) {
-//   var text = fs.readFileSync("test.txt").toString();
-//   io.emit('message_s', text);
-//   socket.on('message', function (msg) {
-//     io.emit('message_s', msg);
-//     // io.emit('message_s', util.inspect(ls));
+io.on('connection', function (socket) {
+  var text = fs.readFileSync("test.txt").toString();
+  io.emit('message_s', text);
+  socket.on('message', function (msg) {
+    io.emit('message_s', msg);
+    // io.emit('message_s', util.inspect(ls));
 
-//   });
-// });
+  });
+});
 
-// http.listen(PORT, function () {
-//   console.log('server listening. Port:' + PORT);
+http.listen(PORT, function () {
+  console.log('server listening. Port:' + PORT);
 
-// });
+});
 
 //ファイルの書き込み関数
 // function writeFile(path, data) {
