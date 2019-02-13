@@ -42,21 +42,35 @@ function listen() {
 
 	//（上記の判定が終了した後）前回の判定と今回の判定結果が違う場合はサーバーのステータスが変化したことをクライアントに知らせる
 	result.then(function (data) {
-		if (status !== data)
-			console.log(data)
+		// io.emit('message_s', true);
+
+		if (status !== data){
+			// console.log(data)
+		if(data){
+			io.emit('message_s', "サーバーの起動が完了しました");
+			io.emit('server_status', "Running!!");
+		}
+		else {
+			io.emit('message_s', "サーバーの停止が完了しました");
+			io.emit('server_status', "Not Run!!");
+
+		}
 		status = data
+		}
 	});
 
 }
 
 //1秒ごとに判定
-// setInterval(listen, 1000)
+setInterval(listen, 1000)
 
 io.on('connection', function (socket) {
-  var text = fs.readFileSync("test.txt").toString();
-  io.emit('message_s', text);
+//   var text = fs.readFileSync("test.txt").toString();
+//   io.emit('message_s', text);
+	listen()
   socket.on('message', function (msg) {
     io.emit('message_s', msg);
+    io.emit('message_s', "unti");
     // io.emit('message_s', util.inspect(ls));
 
   });

@@ -28,6 +28,7 @@
     "node-netcat": "^1.4.8",
     "node-nmap": "^4.0.0",
     "portscanner": "^2.2.0",
+    "socket.io": "^2.2.0",
     "udp-transport": "^0.1.2"
   }
 }

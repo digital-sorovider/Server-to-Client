@@ -13,10 +13,12 @@
         <!-- <iframe src="https://sock.rusian0.com" frameborder="0"></iframe> -->
         <h1>チャットテスト</h1>
         <img src="server-icon.png" alt="">
+        <div id="status"></div>
         <form action="#" id="message_form">
             <input id="input_msg" autocomplete="off" /><button>Send</button>
         </form>
         <div id="messages"></div>
+
         <script>
             var socket_c = io('http://localhost:3000', {transports:['polling']});
 
@@ -29,6 +31,10 @@
 
                 socket_c.on('message_s', function (msg) {
                     $('#messages').append($('<h3>').text(msg));
+                });
+
+                socket_c.on('server_status', function (msg) {
+                    $('#status').append($('<h3>').text(msg));
                 });
             });
         </script>
