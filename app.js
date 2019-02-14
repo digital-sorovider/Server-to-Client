@@ -74,7 +74,7 @@ function listen_check() {
 // setInterval(listen_check, 1000)
 
 io.on('connection', function (socket) {
-	// listen_check()
+
 	console.log("connect");
 
 	if (status) {
