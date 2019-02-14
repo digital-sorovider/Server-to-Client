@@ -30,11 +30,11 @@
                 });
 
                 socket_c.on('message_s', function (msg) {
-                    $('#messages').append($('<h3>').text(msg));
+                    $('#messages').html($('<h3>').text(msg));
                 });
 
                 socket_c.on('server_status', function (msg) {
-                    $('#status').append($('<h3>').text(msg));
+                    $('#status').html($('<h3>').text(msg));
                 });
             });
         </script>
