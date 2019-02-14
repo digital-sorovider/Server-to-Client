@@ -51,8 +51,6 @@ function listen_check() {
 		// }
 
 		if (status !== data) {
-			// console.log(data)
-
 			if (data) {
 				io.emit('message_s', "サーバーが稼働状態になりました");
 				io.emit('server_status', "Running!!");
@@ -71,7 +69,7 @@ function listen_check() {
 }
 
 //1秒ごとに判定
-// setInterval(listen_check, 1000)
+setInterval(listen_check, 1000)
 
 io.on('connection', function (socket) {
 
