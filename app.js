@@ -46,11 +46,11 @@ function listen_check() {
 		if (status !== data) {
 			if (data) {
 				io.emit('message_s', "サーバーが稼働状態になりました");
-				io.emit('server_status', "Running!!", 'lightgreen');
+				io.emit('server_status', "稼働中", 'lightgreen');
 			}
 			else {
 				io.emit('message_s', "サーバーが停止状態になりました");
-				io.emit('server_status', "Not Run!", 'red');
+				io.emit('server_status', "停止中", 'red');
 
 			}
 			status = data
@@ -69,8 +69,8 @@ io.on('connection', function (socket) {
 
 	//現在のサーバーステータスをプッシュ
 	listen_check()
-	if (status) io.emit('server_status', "Running!!", 'lightgreen');
-	else io.emit('server_status', "Not Run!", 'red');
+	if (status) io.emit('server_status', "稼働中", 'lightgreen');
+	else io.emit('server_status', "停止中", 'red');
 });
 
 http.listen(PORT, function () {
