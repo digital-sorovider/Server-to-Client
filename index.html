@@ -1,40 +1,71 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <title>Server-to-Client</title>
-        <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-        <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-    </head>
+<head>
+    <title>Server-to-Client</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery"></script>
+</head>
 
-    <body>
-        <!-- <iframe src="https://sock.rusian0.com" frameborder="0"></iframe> -->
-        <h2>サーバーの状態をリアルタイム表示</h2>
-        <!-- <canvas id="canvas" width="100" height="100" style='background: gray'></canvas> -->
-        <!-- <img src="server-icon.png" alt=""> -->
-<h3 id="status"></h3>
-        <h4 id="messages"></h4>
+<style>
+.radio {
+    color:white;
+    display: inline;
+}
 
-        <script>
-            var socket_c = io('http://localhost:3000', {transports:['polling']});
+#status {
+    display: none
+}
 
-            $(function () {
-                $('#message_form').submit(function () {
-                    socket_c.emit('message', $('#input_msg').val());
-                    $('#input_msg').val('');
-                    return false;
-                });
+</style>
 
-                socket_c.on('message_s', function (msg) {
-                    $('#messages').text(msg);
-                });
+<body style='background:rgb(65, 65, 65)'>
+    <h3 style='color:white'>サーバーの状態をリアルタイム表示</h3>
+        <input type="text" id="port" placeholder="ポート番号" required>
 
-                socket_c.on('server_status', function (status, col) {
-                    $('#status').text(status).css('color', col);
-                });
+    <input type="radio" name="protocol" value='TCP'><div class=radio>TCP</div>
+    <input type="radio" name="protocol" value='UDP'><div class=radio>UDP</div>
+
+    <h3 id="status"></h3>
+    <h4 id="messages"></h4>
+
+    <script>
+        var socket_c = io();
+
+        $(function () {
+            socket_c.on('message_s', function (msg) {
+                // $('#messages').fadeOut(0).text(msg).fadeIn('slow');
+                $('#messages').text(msg).fadeIn('slow');
             });
-        </script>
-    </body>
+
+            socket_c.on('server_status', function (status, col) {
+                // $('#status').fadeOut(0).text(status).css('color', col).fadeIn('slow');
+                $('#status').text(status).css('color', col).fadeIn('slow');
+            });
+
+            $('#port').keyup(function() {
+                if (!Number.isNaN(Number($('#port').val()))) {
+                    socket_c.emit('port_c', $('#port').val())
+                } else {
+                    socket_c.emit('port_c', $('#port').val(''))
+                }
+
+            });
+
+            socket_c.on('port', function (port_num) {
+                $('#port').val(port_num)
+            })
+
+            socket_c.on('protocol', function (pro) {
+                $('input[name=protocol]').val([pro]);
+            })
+
+            $('input[name="protocol"]:radio').change(function () {
+                socket_c.emit('protocol_c', $('input[name=protocol]:checked').val())
+            });
+        });
+    </script>
+</body>
 
 
 
