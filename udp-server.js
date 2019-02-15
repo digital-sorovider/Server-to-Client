@@ -1,14 +1,16 @@
 var dgram = require('dgram');
+var server_host = 'localhost'
+var server_port = 4000
 
 setTimeout(() => {
     console.log("1")
-}, 1000);
+}, 0);
 setTimeout(() => {
     console.log("2")
-}, 2000);
+}, 1000);
 setTimeout(() => {
     console.log("3")
-}, 3000);
+}, 2000);
 
 setTimeout(() => {
 
@@ -17,5 +19,8 @@ sock = dgram.createSocket("udp4", function (msg, rinfo) {
   console.log('data len: '+ rinfo.size + " data: "+
               msg.toString('ascii', 0, rinfo.size));
 });
-sock.bind(4000, 'localhost');
-}, 4000);
+sock.bind(server_port, server_host);
+console.log("\n" + 'Test UDP Server Start');
+console.log(server_host,':',server_port);
+
+}, 3000);
