@@ -72,11 +72,11 @@ function listen_check() {
 		if (status !== data) {
 			if (data) {
 				io.emit('message_s', "サーバーが稼働状態になっています");
-				io.emit('server_status', "稼働中", 'lightgreen');
+				io.emit('server_status', "稼働中(listen)", 'lightgreen');
 			}
 			else {
 				io.emit('message_s', "サーバーが停止状態になっています");
-				io.emit('server_status', "停止中", 'red');
+				io.emit('server_status', "停止中(not listen)", 'red');
 
 			}
 			status = data
@@ -103,7 +103,13 @@ io.on('connection', function (socket) {
 
 	socket.on('port_c', function (port_num) {
 		check_port = port_num
-		io.emit('port', port_num);
+		if (!Number.isNaN(Number(port_num))) {
+			io.emit('port', port_num);
+		}
+		else {
+			io.emit('port', "");
+
+		}
 	})
 
 	socket.on('protocol_c', function (protocol) {
