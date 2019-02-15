@@ -24,7 +24,7 @@
     }
 
     .drag-and-drop {
-        cursor: move;
+        cursor: pointer;
         position: absolute;
         z-index: 1000;
         background-color: lightblue;
@@ -87,6 +87,12 @@
                 socket_c.emit('protocol_c', $('input[name=protocol]:checked').val())
             });
 
+            socket_c.on('location_c', function (y, x) {
+                var drag = document.getElementsByClassName("drag")[0];
+                $('.drag').css('top', y);
+                $('.drag').css('left', x);
+            })
+
 
             //要素の取得
             var elements = document.getElementsByClassName("drag-and-drop");
@@ -143,11 +149,21 @@
                 drag.style.top = event.pageY - y + "px";
                 drag.style.left = event.pageX - x + "px";
 
+                socket_c.emit('location', drag.style.top,  drag.style.left)
+
+                socket_c.on('location_c', function (y, x) {
+                var drag = document.getElementsByClassName("drag")[0];
+                console.log(x, y)
+                $('.drag').css('top', y);
+                $('.drag').css('left', x);
+                })
+
+
                 //マウスボタンが離されたとき、またはカーソルが外れたとき発火
                 drag.addEventListener("mouseup", mup, false);
-                document.body.addEventListener("mouseleave", mup, false);
+                // document.body.addEventListener("mouseleave", mup, false);
                 drag.addEventListener("touchend", mup, false);
-                document.body.addEventListener("touchleave", mup, false);
+                // document.body.addEventListener("touchleave", mup, false);
 
             }
 

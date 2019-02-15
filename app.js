@@ -116,6 +116,11 @@ io.on('connection', function (socket) {
 		pro = protocol
 		io.emit('protocol', pro);
 	})
+
+	socket.on('location', function (y, x){
+		io.emit('location_c', y, x)
+		console.log(x, y)
+	})
 });
 
 http.listen(http_port, function () {
