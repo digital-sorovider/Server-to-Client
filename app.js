@@ -1,24 +1,20 @@
 var express = require('express');
 var app = express();
-var exec = require('child_process').exec; //シェルコマンド実行モジュール
-const is_windows = process.platform === 'win32'
-const is_linux = process.platform === 'linux'
-// var util = require('util');
+var exec = require('child_process').exec;
 var http = require('http').Server(app);
-// var fs = require('fs');
-
 const io = require('socket.io')(http);
 const PORT = process.env.Port || 3000;
-
+const is_windows = process.platform === 'win32'
+const is_linux = process.platform === 'linux'
 
 var status;
 
+//チェックしたいサーバーがlistenするポート
 check_port = "4000"
 port = '":' + check_port + ' "'
 
+//サーバーが起動しているかをポートのlisten状態で判断し、結果をクライアントにプッシュする
 function listen_check() {
-	// var search_type;
-
 	//実行OSを基にnetstatとコマンドのオプションと検索コマンドの分岐
 	if (is_windows) {
 		args = ' -anp UDP '
@@ -30,7 +26,6 @@ function listen_check() {
 		search_type = ' grep '
 	}
 
-
 	//指定されたポートがlistenされているかどうか判定
 	var result = new Promise(function (resolve) {
 		exec('netstat' + args + '|' + search_type + port, (err, stdout) => {
@@ -39,7 +34,7 @@ function listen_check() {
 		});
 	})
 
-	//（上記の判定が終了した後）前回の判定と今回の判定結果が違う場合はサーバーのステータスが変化したことをクライアントに知らせる
+	//（ポートのlisten確認後）前回の判定結果と今回の判定結果が違う場合はサーバーのステータスが変化したことをクライアントに知らせる
 	result.then(function (data) {
 
 		if (status !== data) {
@@ -60,30 +55,19 @@ function listen_check() {
 
 }
 
-//1秒ごとに判定
-setInterval(listen_check, 1000)
+//0.5秒ごとに判定
+setInterval(listen_check, 500)
 
+//クライアント接続時の処理
 io.on('connection', function (socket) {
-
 	console.log("connect");
 
-	if (status) {
-		io.emit('server_status', "Running!!");
-	}
-	else {
-		io.emit('server_status', "Not Run!");
-	}
-
-	//   var text = fs.readFileSync("test.txt").toString();
-	//   io.emit('message_s', text);
-	socket.on('message', function (msg) {
-		io.emit('message_s', msg);
-		// io.emit('message_s', util.inspect(ls));
-
-	});
+	//現在のサーバーステータスをプッシュ
+	listen_check()
+	if (status) io.emit('server_status', "Running!!");
+	else io.emit('server_status', "Not Run!");
 });
 
 http.listen(PORT, function () {
-	console.log('server listening. Port:' + PORT);
-
+	console.log('server listening Port:' + PORT);
 });
