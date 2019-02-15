@@ -8,6 +8,12 @@
 </head>
 
 <style>
+body {
+    background:rgb(65, 65, 65);
+    color: white;
+    margin: 10% 20% 0 10%;
+}
+
 .radio {
     color:white;
     display: inline;
@@ -19,10 +25,12 @@
 
 </style>
 
-<body style='background:rgb(65, 65, 65)'>
-    <h3 style='color:white'>サーバーの状態をリアルタイム表示</h3>
-        <input type="text" id="port" placeholder="ポート番号" required>
-
+<body>
+    <h2>サーバーの状態をリアルタイム表示</h2>
+    <br>
+        ポート番号： <input type="text" id="port" required>
+    <br><br>
+    プロトコル：
     <input type="radio" name="protocol" value='TCP'><div class=radio>TCP</div>
     <input type="radio" name="protocol" value='UDP'><div class=radio>UDP</div>
 
@@ -34,12 +42,10 @@
 
         $(function () {
             socket_c.on('message_s', function (msg) {
-                // $('#messages').fadeOut(0).text(msg).fadeIn('slow');
                 $('#messages').text(msg).fadeIn('slow');
             });
 
             socket_c.on('server_status', function (status, col) {
-                // $('#status').fadeOut(0).text(status).css('color', col).fadeIn('slow');
                 $('#status').text(status).css('color', col).fadeIn('slow');
             });
 

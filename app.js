@@ -1,13 +1,5 @@
-/////////////////////////////////////////////////
 
-//チェックしたいサーバーがlistenするポート
-check_port = "4000" //デフォルト値
-
-//プロトコル
-pro = 'TCP' //デフォルト値
-
-////////////////////////////////////////////////
-
+var config = require('./config.js')
 var express = require('express');
 var app = express();
 var exec = require('child_process').exec;
@@ -17,7 +9,8 @@ var http_port = 3000;
 var is_windows = process.platform === 'win32'
 var is_linux = process.platform === 'linux'
 var status;
-
+var check_port = config.port
+var pro = config.protocol
 
 
 if (!Number.isNaN(Number(process.argv[2]))) {
@@ -101,6 +94,7 @@ io.on('connection', function (socket) {
 	console.log("client connect");
 	// io.emit('protocol', pro);
 	io.emit('protocol', pro);
+	io.emit('port', check_port);
 
 	//現在のサーバーステータスをプッシュ
 	listen_check()
