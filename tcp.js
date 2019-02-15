@@ -1,8 +1,15 @@
 //テスト用の簡易TCPサーバー(指定されたポートをlistenするだけ)
 
+
 var http = require('http').Server();
 var server_host = 'localhost'
-var server_port = 4000 //サーバーとしてlistenするポートのデフォルト値
+
+//////////////////////////////////////////
+
+var server_port = 4000 //デオフルト値
+
+////////////////////////////////////////
+
 
 if (!Number.isNaN(Number(process.argv[2]))) {
     server_port = process.argv[2]
