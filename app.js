@@ -41,14 +41,6 @@ function listen_check() {
 
 	//（上記の判定が終了した後）前回の判定と今回の判定結果が違う場合はサーバーのステータスが変化したことをクライアントに知らせる
 	result.then(function (data) {
-		// io.emit('message_s', true);
-		// if (data) {
-		// 	io.emit('server_status', "Running!!");
-		// }
-		// else{
-		// 	io.emit('server_status', "Not Run!");
-
-		// }
 
 		if (status !== data) {
 			if (data) {
@@ -95,15 +87,3 @@ http.listen(PORT, function () {
 	console.log('server listening. Port:' + PORT);
 
 });
-
-//ファイルの書き込み関数
-// function writeFile(path, data) {
-//   fs.writeFile(path, data, function (err) {
-//     if (err) {
-//       throw err;
-//     }
-//   });
-// }
-
-// //使用例
-// writeFile("test.txt", "サンプルテキスト");

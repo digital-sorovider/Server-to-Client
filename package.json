@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/rusian0/Server-to-Client#readme",
   "dependencies": {
+    "chokidar": "^2.1.1",
     "dgram": "^1.0.1",
     "express": "^4.16.4",
     "libnmap": "^0.4.16",
