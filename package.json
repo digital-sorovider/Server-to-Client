@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/rusian0/Server-to-Client#readme",
   "dependencies": {
+    "child_process": "^1.0.2",
     "chokidar": "^2.1.1",
     "dgram": "^1.0.1",
     "express": "^4.16.4",
+    "http": "0.0.0",
     "libnmap": "^0.4.16",
     "lsof": "^0.1.0",
     "namp": "^0.2.25",
