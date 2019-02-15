@@ -2,7 +2,7 @@
 <html>
 
     <head>
-        <title>さんぷる</title>
+        <title>Server-to-Client</title>
         <script src="http://localhost:3000/socket.io/socket.io.js"></script>
         <!-- <script src="http://localhost:3000/socket.io/socket.io.js"></script> -->
         <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -14,10 +14,7 @@
         <h1>Test</h1>
         <!-- <canvas id="canvas" width="100" height="100" style='background: gray'></canvas> -->
         <!-- <img src="server-icon.png" alt=""> -->
-        <div id="status"></div>
-        <form action="#" id="message_form">
-            <input id="input_msg" autocomplete="off" /><button>Send</button>
-        </form>
+<h3 id="status"></h3>
         <div id="messages"></div>
 
         <script>
@@ -34,8 +31,8 @@
                     $('#messages').html($('<h3>').text(msg));
                 });
 
-                socket_c.on('server_status', function (msg) {
-                    $('#status').html($('<h3>').text(msg));
+                socket_c.on('server_status', function (status, col) {
+                    $('#status').text(status).css('color', col);
                 });
             });
         </script>

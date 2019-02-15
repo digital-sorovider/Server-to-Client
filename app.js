@@ -13,17 +13,23 @@ var status;
 check_port = "4000"
 port = '":' + check_port + ' "'
 
+//プロトコル
+pro = 'UDP'
+
+
 //サーバーが起動しているかをポートのlisten状態で判断し、結果をクライアントにプッシュする
 function listen_check() {
 	//実行OSを基にnetstatとコマンドのオプションと検索コマンドの分岐
 	if (is_windows) {
-		args = ' -anp UDP '
+		args = ' -anp ' + pro + ' '
 		search_type = ' find '
 	}
 
 	if (is_linux) {
-		args = ' -anu '
 		search_type = ' grep '
+		if(pro === 'TCP') args = ' -ant '
+		else args = ' -anu '
+
 	}
 
 	//指定されたポートがlistenされているかどうか判定
@@ -40,12 +46,11 @@ function listen_check() {
 		if (status !== data) {
 			if (data) {
 				io.emit('message_s', "サーバーが稼働状態になりました");
-				io.emit('server_status', "Running!!");
-
+				io.emit('server_status', "Running!!", 'lightgreen');
 			}
 			else {
 				io.emit('message_s', "サーバーが停止状態になりました");
-				io.emit('server_status', "Not Run!");
+				io.emit('server_status', "Not Run!", 'red');
 
 			}
 			status = data
@@ -64,8 +69,8 @@ io.on('connection', function (socket) {
 
 	//現在のサーバーステータスをプッシュ
 	listen_check()
-	if (status) io.emit('server_status', "Running!!");
-	else io.emit('server_status', "Not Run!");
+	if (status) io.emit('server_status', "Running!!", 'lightgreen');
+	else io.emit('server_status', "Not Run!", 'red');
 });
 
 http.listen(PORT, function () {
