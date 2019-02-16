@@ -11,6 +11,8 @@ var is_linux = process.platform === 'linux'
 var status;
 var check_port = config.port
 var pro = config.protocol
+var locationx;
+var locationy;
 
 
 if (!Number.isNaN(Number(process.argv[2]))) {
@@ -92,9 +94,10 @@ setInterval(listen_check, 500)
 //クライアント接続時の処理
 io.on('connection', function (socket) {
 	console.log("client connect");
-	// io.emit('protocol', pro);
 	io.emit('protocol', pro);
 	io.emit('port', check_port);
+	io.emit('def_location', locationx, locationy);
+
 
 	//現在のサーバーステータスをプッシュ
 	listen_check()
@@ -117,10 +120,12 @@ io.on('connection', function (socket) {
 		io.emit('protocol', pro);
 	})
 
-	socket.on('location', function (y, x){
-		io.emit('location_c', y, x)
-		console.log(x, y)
+	socket.on('location', function (x, y){
+		io.emit('location_c', x, y)
+		locationx = x
+		locationy = y
 	})
+
 });
 
 http.listen(http_port, function () {
