@@ -23,7 +23,8 @@ https://qiita.com/noraworld/items/8546c44d1ec6d739493f
   3. `$ node app.js`
  
 # 使用方法
- ブラウザでhttp://server-ip:3000　にアクセス
+ ブラウザでhttp://server-ip:3000
+ にアクセス
  * ポート番号入力
  * プロトコル選択
  
