@@ -30,8 +30,9 @@ https://qiita.com/noraworld/items/8546c44d1ec6d739493f
  
 これでサーバー側のポートの状態が表示されます
 
-* テストサーバー(指定したポートlisten用)の使用
- `$ node sample-server/tcp.js 8080`
- 又は
+# テストサーバーの使用方法
+* 引数に指定した番号をListenします
+ `$ node sample-server/tcp.js 8080` 
+ 又は 
   `$ node sample-server/udp.js 9987`
   などのように使ってみてください
