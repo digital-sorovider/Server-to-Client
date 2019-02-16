@@ -32,7 +32,7 @@ https://qiita.com/noraworld/items/8546c44d1ec6d739493f
 
 # テストサーバーの使用方法
 * 引数に指定した番号をListenします
- `$ node sample-server/tcp.js 8080` 
+ * `$ node sample-server/tcp.js 8080` 
  又は 
-  `$ node sample-server/udp.js 9987`
+  * `$ node sample-server/udp.js 9987`
   などのように使ってみてください
